@@ -14,4 +14,6 @@ urlpatterns = [
     path("posts/<int:pk>/remover/", views.PostDeleteView.as_view(), name="post_delete"),
     path("entrar/", LoginView.as_view(template_name="login.html"), name="login"),
     path("posts/<int:pk>/comentar/", views.comment_create, name="comment_create"),
+    path("categorias/", views.category_list, name="category_list"),
+    path("categorias/<int:pk>/", views.category_detail, name="category_detail"),
 ]

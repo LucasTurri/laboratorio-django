@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Categorias | Meu blog{% endblock %}
+
+{% block content %}
+    <h1>Categorias</h1>
+
+    <ul>
+        {% for category in categories %}
+            <li>
+                <a href="{% url 'blog:category_detail' category.pk %}">{{ category.name }}</a>
+                <p>{{ category.description }}</p>
+            </li>
+        {% empty %}
+            <li>Ainda não há categorias.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

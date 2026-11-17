@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import CommentForm, PostForm
-from .models import Post
+from .models import Category, Post
 
 
 class PostListView(ListView):
@@ -69,4 +69,19 @@ def comment_create(request, pk):
         request,
         "comment_form.html",
         {"form": form, "post": post},
+    )
+
+def category_list(request):
+    categories = Category.objects.order_by("name")
+    return render(request, "category_list.html", {"categories": categories})
+
+
+def category_detail(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    posts = category.posts.order_by("-created_at")
+
+    return render(
+        request,
+        "post_list.html",
+        {"category": category, "posts": posts},
     )

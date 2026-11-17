@@ -3,7 +3,11 @@
 {% block title %}Posts | Meu blog{% endblock %}
 
 {% block content %}
-    <h1>Posts</h1>
+    {% if category %}
+        <h1>Posts da categoria {{ category.name }}</h1>
+    {% else %}
+        <h1>Posts</h1>
+    {% endif %}
     
     {% if user.is_staff %}
         <p><a href="{% url 'blog:post_create' %}">Criar post</a></p>
