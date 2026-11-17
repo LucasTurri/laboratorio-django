@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}{{ heading }} | Meu blog{% endblock %}
+
+{% block content %}
+    <h1>{{ heading }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>
+            <label for="title">Título</label><br>
+            <input type="text" id="title" name="title" value="{{ post.title }}">
+        </p>
+
+        <p>
+            <label for="content">Conteúdo em HTML</label><br>
+            <textarea id="content" name="content" rows="8" cols="60">{{ post.content }}</textarea>
+        </p>
+
+        <button type="submit">Salvar</button>
+    </form>
+
+    {% if post %}
+        <p><a href="{% url 'blog:post_detail' post.pk %}">Cancelar</a></p>
+    {% else %}
+        <p><a href="{% url 'blog:post_list' %}">Cancelar</a></p>
+    {% endif %}
+{% endblock %}

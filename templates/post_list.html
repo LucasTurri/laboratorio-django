@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Posts | Meu blog{% endblock %}
+
+{% block content %}
+    <h1>Posts</h1>
+    
+    {% if user.is_staff %}
+        <p><a href="{% url 'blog:post_create' %}">Criar post</a></p>
+    {% endif %}
+
+    <ul>
+        {% for post in posts %}
+            <li>
+                <a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a>
+            </li>
+        {% empty %}
+            <li>Ainda não há posts.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
