@@ -14,4 +14,20 @@
             <a href="{% url 'blog:post_delete' post.pk %}">Remover post</a>
         </p>
     {% endif %}
+    <section>
+        <h2>Comentários</h2>
+        <p><a href="{% url 'blog:comment_create' post.pk %}">Comentar</a></p>
+
+        {% for comment in post.comments.all %}
+            <article>
+                <p>
+                    <strong>{{ comment.author.get_username }}</strong>
+                    em {{ comment.created_at|date:"d/m/Y H:i" }}
+                </p>
+                <p>{{ comment.text }}</p>
+            </article>
+        {% empty %}
+            <p>Ainda não há comentários.</p>
+        {% endfor %}
+    </section>
 {% endblock %}

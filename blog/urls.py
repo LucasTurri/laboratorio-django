@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LoginView
 from django.urls import path
 
 from . import views
@@ -11,4 +12,6 @@ urlpatterns = [
     path("posts/<int:pk>/", views.PostDetailView.as_view(), name="post_detail"),
     path("posts/<int:pk>/editar/", views.PostUpdateView.as_view(), name="post_update"),
     path("posts/<int:pk>/remover/", views.PostDeleteView.as_view(), name="post_delete"),
+    path("entrar/", LoginView.as_view(template_name="login.html"), name="login"),
+    path("posts/<int:pk>/comentar/", views.comment_create, name="comment_create"),
 ]

@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
-from .forms import PostForm
+from .forms import CommentForm, PostForm
 from .models import Post
 
 
@@ -47,3 +49,24 @@ class PostDeleteView(DeleteView):
     model = Post
     template_name = "post_confirm_delete.html"
     success_url = reverse_lazy("blog:post_list")
+
+@login_required(login_url="blog:login")
+def comment_create(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return redirect("blog:post_detail", pk=post.pk)
+    else:
+        form = CommentForm()
+
+    return render(
+        request,
+        "comment_form.html",
+        {"form": form, "post": post},
+    )
