@@ -27,6 +27,9 @@ if ON_RENDER:
     SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
     DEBUG = False
     ALLOWED_HOSTS = [os.environ["RENDER_EXTERNAL_HOSTNAME"]]
+    CSRF_TRUSTED_ORIGINS = [f"https://{ALLOWED_HOSTS[0]}"]
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
 else:
     SECRET_KEY = "django-insecure-laboratorio-apenas-local"
     DEBUG = True
@@ -131,3 +134,7 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+if ON_RENDER:
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+    MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")

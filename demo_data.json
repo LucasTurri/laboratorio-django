@@ -1,0 +1,104 @@
+[
+{
+  "model": "blog.post",
+  "pk": 1,
+  "fields": {
+    "title": "Meu primeiro post",
+    "content": "<p>Este é meu primeiro post no Django.</p>",
+    "created_at": "2026-11-16T23:54:19.584Z",
+    "categories": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 6,
+  "fields": {
+    "title": "Aprendendo Django",
+    "content": "<p>Minhas primeiras experiências com Django.</p>",
+    "created_at": "2026-11-17T02:00:45.157Z",
+    "categories": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 7,
+  "fields": {
+    "title": "Sobre o blog",
+    "content": "<p>Este blog reúne minhas anotações de estudo.</p>",
+    "created_at": "2026-11-17T02:07:46.516Z",
+    "categories": [
+      3
+    ]
+  }
+},
+{
+  "model": "blog.comment",
+  "pk": 1,
+  "fields": {
+    "post": 1,
+    "author": 2,
+    "text": "Primeiro comentário",
+    "created_at": "2026-11-17T01:46:52.401Z"
+  }
+},
+{
+  "model": "blog.comment",
+  "pk": 2,
+  "fields": {
+    "post": 1,
+    "author": 2,
+    "text": "Segundo comentário",
+    "created_at": "2026-11-17T01:47:15.317Z"
+  }
+},
+{
+  "model": "blog.comment",
+  "pk": 3,
+  "fields": {
+    "post": 6,
+    "author": 2,
+    "text": "Comentário1 Aprendendo Django",
+    "created_at": "2026-11-17T02:10:49.291Z"
+  }
+},
+{
+  "model": "blog.comment",
+  "pk": 4,
+  "fields": {
+    "post": 6,
+    "author": 2,
+    "text": "Comentário2 Aprendendo Django",
+    "created_at": "2026-11-17T02:10:54.968Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 1,
+  "fields": {
+    "name": "Tecnologia",
+    "description": "Posts sobre ferramentas e programação"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 2,
+  "fields": {
+    "name": "Estudos",
+    "description": "Anotações e aprendizados"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 3,
+  "fields": {
+    "name": "Informes",
+    "description": "Informações sobre o blog"
+  }
+}
+]
