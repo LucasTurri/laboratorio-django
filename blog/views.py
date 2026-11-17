@@ -1,60 +1,49 @@
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import PostForm
 from .models import Post
 
 
-def post_list(request):
-    posts = Post.objects.order_by("-created_at")
-    return render(request, "post_list.html", {"posts": posts})
+class PostListView(ListView):
+    model = Post
+    template_name = "post_list.html"
+    context_object_name = "posts"
+    ordering = "-created_at"
 
 
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    return render(request, "post_detail.html", {"post": post})
-
-@staff_member_required
-def post_create(request):
-    if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save()
-            return redirect("blog:post_detail", pk=post.pk)
-    else:
-        form = PostForm()
-
-    return render(
-        request,
-        "post_form.html",
-        {"heading": "Criar post", "form": form},
-    )
+class PostDetailView(DetailView):
+    model = Post
+    template_name = "post_detail.html"
+    context_object_name = "post"
 
 
-@staff_member_required
-def post_update(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+@method_decorator(staff_member_required, name="dispatch")
+class PostCreateView(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = "post_form.html"
+    extra_context = {"heading": "Criar post"}
 
-    if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect("blog:post_detail", pk=post.pk)
-    else:
-        form = PostForm(instance=post)
+    def get_success_url(self):
+        return reverse("blog:post_detail", kwargs={"pk": self.object.pk})
 
-    return render(
-        request,
-        "post_form.html",
-        {"heading": "Editar post", "form": form, "post": post},
-    )
 
-@staff_member_required
-def post_delete(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+@method_decorator(staff_member_required, name="dispatch")
+class PostUpdateView(UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = "post_form.html"
+    extra_context = {"heading": "Editar post"}
 
-    if request.method == "POST":
-        post.delete()
-        return redirect("blog:post_list")
+    def get_success_url(self):
+        return reverse("blog:post_detail", kwargs={"pk": self.object.pk})
 
-    return render(request, "post_confirm_delete.html", {"post": post})
+
+@method_decorator(staff_member_required, name="dispatch")
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = "post_confirm_delete.html"
+    success_url = reverse_lazy("blog:post_list")
